@@ -2,7 +2,7 @@ from flask_sqlalchemy import SQLAlchemy
 from flask_migrate import Migrate
 from sqlalchemy_serializer import SerializerMixin
 from sqlalchemy.orm import validates
-from extention import bcrypt
+from extensions import bcrypt
 
 
 # No Flask app initialization here.
@@ -36,10 +36,9 @@ class User(db.Model, SerializerMixin):
             "username": self.username,
             "Password": self.password_hash
         }
-    
-    def set_password(self, password):
-        self.password_hash = bcrypt.generate_password_hash(password).decode('utf-8')
 
+    def set_password (self, password):
+        self.password_hash = bcrypt.generate_password_hash(password).decode('utf-8')
+    
     def check_password(self, password):
         return bcrypt.check_password_hash(self.password_hash, password)
-    

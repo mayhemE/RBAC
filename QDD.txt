@@ -1,16 +1,21 @@
 1. What are sessions and cookies?
    - Cookies. A file that stores user data in the browser
    - session. A store for user data on the server side. 
+
 2. How do they work?
+   User logs in → server creates a session → sends a cookie with session ID to browser.
+   Browser sends cookie with every request.
+   Server looks up session ID → restores user info.
+
 3. What JWT?
 4. How to achieve password encryption.
    -  install flask bcrypt
    - import in app
    - Create an instance
+   
 5. How to achieve access control.
     - set up user to have a role field
     - The sign up request will have user.role (User bieng the default)
     - The login will have a session storing the role.
     - In the **decorator.py** we create a decorator tha will grant users access based on their role (only admins can access)
     - the decorator is then added to a route to protect it.  
-6. breakdown coming up

@@ -1,18 +1,18 @@
 #!/usr/bin/env bash
-
 set -e
 
+echo "Running migrations (if available)..."
+if [ ! -f db.sqlite3 ]; then
+  flask db upgrade
+fi
 
-if [-f "manage.py"]; then
-    flask db migrate || echo "Migrations failed"
-fi 
 
+echo "Ensuring database tables exist..."
 python - <<'PY'
-from app import db, app 
-
+from app import db, app
 with app.app_context():
-        db.create_all()
-
+    db.create_all()
 PY
 
-exec gunicorn "app:app" --bind 0.0.0.0:&port --workers 3
+echo "Starting gunicorn..."
+exec gunicorn "app:app" --bind 0.0.0.0:$PORT --workers 3

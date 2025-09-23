@@ -18,7 +18,7 @@ MarkupSafe==3.0.2
 psycopg2-binary==2.9.9
 pytz==2024.2
 six==1.17.0
-SQLAlchemy==2.0.29
+SQLAlchemy==*
 sqlalchemy-serializer==1.4.22
 typing_extensions==4.13.0
 tzdata==2025.2

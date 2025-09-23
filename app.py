@@ -84,14 +84,14 @@ class StudentsApi(Resource):
         if id:
             student = Student.query.get(id)
             if not student:
-                return jsonify({"error": "Student not found"}), 404
-            return jsonify(student.to_dict())
+                return {"error": "Student not found"}, 404
+            return student.to_dict()
+
         """Returns a list of all students."""
         all_students = Student.query.all()
         students_list = [std.to_dict() for std in all_students]
-        return jsonify(students_list)
+        return students_list
 
-    @login_required
     def post(self):
         data = request.get_json()
         name = data.get('name')
@@ -100,7 +100,7 @@ class StudentsApi(Resource):
         db.session.add(student)
         db.session.commit()
 
-        return make_response(jsonify({"message": "Student created successfully"})), 201 
+        return {"message": "Student created successfully"}, 201
 
 # add a route to the resource
 api.add_resource(StudentsApi, '/students', '/students/<int:id>')

@@ -12,3 +12,8 @@ def login_required(fn):
 
     return wrapper
 
+def login(fn):
+    pass
+
+
+

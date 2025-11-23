@@ -8,7 +8,6 @@ from werkzeug.exceptions import BadRequest
 api = Api(app)
 
 
-
 @app.errorhandler(BadRequest)
 def handle_bad_request(e):
     return str(e)
@@ -43,21 +42,62 @@ class Register(Resource):
 
 api.add_resource(Register, "/register")
 
+# A login resource
 class Login(Resource):
+    """
+    Handles user login functionality.
+
+    This endpoint accepts a POST request with a JSON payload containing the user's
+    username and password. It authenticates the user and, if successful, stores
+    the user's ID in the session.
+
+    Parameters:
+    data (dict): A JSON object containing the following keys:
+        - username (str): The user's username.
+        - password (str): The user's password.
+
+    Returns:
+    dict: A JSON response with the following keys:
+        - Message (str): A status message indicating the result of the login attempt.
+    
+    Raises:
+    HTTPException: If the provided username and password are invalid, a 401 Unauthorized
+        response is returned.
+
+    Example Usage:
+    ```python
+    import requests
+
+    data = {
+        "username": "myusername",
+        "password": "mypassword"
+    }
+    response = requests.post("/login", json=data)
+    print(response.json())
+    ```
+
+    Notes:
+    - This endpoint assumes that the `User` model has a `check_password` method that
+      verifies the provided password against the stored hashed password.
+    - The user's ID is stored in the session, which should be used for subsequent
+      authenticated requests.
+    - Developers should ensure that the session is properly managed and secured to
+      prevent unauthorized access.
+    """
     def post(self):
-        data  = request.get_json()
+        data = request.get_json()
         username = data.get("username")
         password = data.get("password")
 
-        user  = User.query.filter_by(username=username).first()
+        user = User.query.filter_by(username=username).first()
 
         if not user or not user.check_password(password):
-            return {"Message":"Invalid credentials"}, 401
+            return {"Message": "Invalid credentials"}, 401
 
         session["user_id"] = user.id
-        return {"Message":"Login successful"}, 200
+        return {"Message": "Login successful"}, 200
 
-api.add_resource(Login,"/login")
+api.add_resource(Login, "/login")
 
 class Logout(Resource):
     def post(self):

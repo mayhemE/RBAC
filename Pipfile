@@ -7,11 +7,11 @@ name = "pypi"
 flask = "*"
 flask-sqlalchemy = "*"
 flask-migrate = "*"
-faker = "35.2.2"
+faker = "*"
 sqlalchemy-serializer = "*"
 flask-restful = "*"
 
 [dev-packages]
 
 [requires]
-python_version = "3.8"
+python_version = "3.13"
